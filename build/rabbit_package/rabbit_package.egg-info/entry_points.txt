@@ -1,0 +1,7 @@
+[console_scripts]
+command_node = rabbit_package.command:main
+controller_node = rabbit_package.controller:main
+drive_node = rabbit_package.drive:main
+joyCon_node = rabbit_package.joyConnection:main
+terminal_node = rabbit_package.terminal:main
+

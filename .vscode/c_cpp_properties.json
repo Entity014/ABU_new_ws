@@ -1,0 +1,30 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/entity014/ABU_new_ws/install/rabbit_interfaces/include/**",
+        "/home/entity014/ros2_ws/install/micro_ros_agent/include/**",
+        "/home/entity014/ros2_ws/install/micro_ros_msgs/include/**",
+        "/home/entity014/ros2_ws/install/drive_base_msgs/include/**",
+        "/home/entity014/abu_ws/install/wiimote/include/**",
+        "/home/entity014/abu_ws/install/wiimote_msgs/include/**",
+        "/home/entity014/abu_ws/install/joy/include/**",
+        "/home/entity014/abu_ws/install/micro_ros_agent/include/**",
+        "/home/entity014/abu_ws/install/micro_ros_msgs/include/**",
+        "/home/entity014/abu_ws/install/drive_base_msgs/include/**",
+        "/opt/ros/foxy/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

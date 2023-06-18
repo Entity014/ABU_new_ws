@@ -1,0 +1,30 @@
+[1.214s] Invoking command in '/home/entity014/ABU_new_ws/src/rabbit_package': PYTHONPATH=/home/entity014/ABU_new_ws/build/rabbit_package/prefix_override:/home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/rabbit_package build --build-base /home/entity014/ABU_new_ws/build/rabbit_package/build install --record /home/entity014/ABU_new_ws/build/rabbit_package/install.log --install-scripts $base/lib/rabbit_package --single-version-externally-managed
+[1.673s] running egg_info
+[1.674s] writing ../../build/rabbit_package/rabbit_package.egg-info/PKG-INFO
+[1.675s] writing dependency_links to ../../build/rabbit_package/rabbit_package.egg-info/dependency_links.txt
+[1.675s] writing entry points to ../../build/rabbit_package/rabbit_package.egg-info/entry_points.txt
+[1.675s] writing requirements to ../../build/rabbit_package/rabbit_package.egg-info/requires.txt
+[1.675s] writing top-level names to ../../build/rabbit_package/rabbit_package.egg-info/top_level.txt
+[1.728s] reading manifest file '../../build/rabbit_package/rabbit_package.egg-info/SOURCES.txt'
+[1.730s] writing manifest file '../../build/rabbit_package/rabbit_package.egg-info/SOURCES.txt'
+[1.730s] running build
+[1.730s] running build_py
+[1.731s] copying rabbit_package/drive.py -> /home/entity014/ABU_new_ws/build/rabbit_package/build/lib/rabbit_package
+[1.731s] copying rabbit_package/controller.py -> /home/entity014/ABU_new_ws/build/rabbit_package/build/lib/rabbit_package
+[1.732s] running install
+[1.733s] running install_lib
+[1.736s] copying /home/entity014/ABU_new_ws/build/rabbit_package/build/lib/rabbit_package/drive.py -> /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package
+[1.736s] copying /home/entity014/ABU_new_ws/build/rabbit_package/build/lib/rabbit_package/controller.py -> /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package
+[1.737s] byte-compiling /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/drive.py to drive.cpython-38.pyc
+[1.741s] byte-compiling /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/controller.py to controller.cpython-38.pyc
+[1.742s] running install_data
+[1.744s] running install_egg_info
+[1.746s] removing '/home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package-0.0.0-py3.8.egg-info' (and everything under it)
+[1.747s] Copying ../../build/rabbit_package/rabbit_package.egg-info to /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package-0.0.0-py3.8.egg-info
+[1.748s] running install_scripts
+[1.776s] Installing command_node script to /home/entity014/ABU_new_ws/install/rabbit_package/lib/rabbit_package
+[1.777s] Installing controller_node script to /home/entity014/ABU_new_ws/install/rabbit_package/lib/rabbit_package
+[1.777s] Installing drive_node script to /home/entity014/ABU_new_ws/install/rabbit_package/lib/rabbit_package
+[1.777s] Installing joyCon_node script to /home/entity014/ABU_new_ws/install/rabbit_package/lib/rabbit_package
+[1.777s] writing list of installed files to '/home/entity014/ABU_new_ws/build/rabbit_package/install.log'
+[1.813s] Invoked command in '/home/entity014/ABU_new_ws/src/rabbit_package' returned '0': PYTHONPATH=/home/entity014/ABU_new_ws/build/rabbit_package/prefix_override:/home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/rabbit_package build --build-base /home/entity014/ABU_new_ws/build/rabbit_package/build install --record /home/entity014/ABU_new_ws/build/rabbit_package/install.log --install-scripts $base/lib/rabbit_package --single-version-externally-managed

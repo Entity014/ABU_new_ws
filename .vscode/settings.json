@@ -1,0 +1,30 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages",
+        "/home/entity014/ABU_new_ws/install/rabbit_interfaces/lib/python3.8/site-packages",
+        "/home/entity014/ros2_ws/install/swap_pillar/lib/python3.8/site-packages",
+        "/home/entity014/ros2_ws/install/micro_ros_msgs/lib/python3.8/site-packages",
+        "/home/entity014/ros2_ws/install/drive_base_msgs/lib/python3.8/site-packages",
+        "/home/entity014/abu_ws/install/wiimote_msgs/lib/python3.8/site-packages",
+        "/home/entity014/abu_ws/install/micro_ros_msgs/lib/python3.8/site-packages",
+        "/home/entity014/abu_ws/install/drive_base_msgs/lib/python3.8/site-packages",
+        "/home/entity014/abu_ws/install/abu_package/lib/python3.8/site-packages",
+        "/opt/ros/foxy/lib/python3.8/site-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages",
+        "/home/entity014/ABU_new_ws/install/rabbit_interfaces/lib/python3.8/site-packages",
+        "/home/entity014/ros2_ws/install/swap_pillar/lib/python3.8/site-packages",
+        "/home/entity014/ros2_ws/install/micro_ros_msgs/lib/python3.8/site-packages",
+        "/home/entity014/ros2_ws/install/drive_base_msgs/lib/python3.8/site-packages",
+        "/home/entity014/abu_ws/install/wiimote_msgs/lib/python3.8/site-packages",
+        "/home/entity014/abu_ws/install/micro_ros_msgs/lib/python3.8/site-packages",
+        "/home/entity014/abu_ws/install/drive_base_msgs/lib/python3.8/site-packages",
+        "/home/entity014/abu_ws/install/abu_package/lib/python3.8/site-packages",
+        "/opt/ros/foxy/lib/python3.8/site-packages"
+    ],
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.formatting.provider": "none"
+}
