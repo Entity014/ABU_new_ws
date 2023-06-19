@@ -21,13 +21,13 @@ class TeriminalRabbit(Node):
         )
         self.dat
 
-        # self.cam = self.create_subscription(
-        #     Image,
-        #     "color_image_topic",
-        #     self.sub_cam_callback,
-        #     qos_profile=qos.qos_profile_sensor_data,
-        # )
-        # self.cam
+        self.cam = self.create_subscription(
+            Image,
+            "color_image_topic",
+            self.sub_cam_callback,
+            qos_profile=qos.qos_profile_sensor_data,
+        )
+        self.cam
 
         self.shoot = False
         self.state = 0
@@ -44,7 +44,7 @@ class TeriminalRabbit(Node):
         self.state = msg.state
         self.pwm = msg.pwm_current
         self.pwm_gui = msg.pwm_state
-        self.gui()
+        # self.gui()
 
     def sub_cam_callback(self, msg):
         current_frame = self.br.imgmsg_to_cv2(msg)
