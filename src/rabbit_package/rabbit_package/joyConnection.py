@@ -12,7 +12,7 @@ class JoyConnectionChecker(Node):
             String, "joy_connection_status", qos_profile=qos.qos_profile_system_default
         )
         self.joy_connected = False
-        self.timer_ = self.create_timer(0.07, self.timer_callback)
+        self.timer_ = self.create_timer(0.08, self.timer_callback)
 
     def timer_callback(self):
         if self.joy_connected:

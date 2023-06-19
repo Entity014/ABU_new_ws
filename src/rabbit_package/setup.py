@@ -28,6 +28,7 @@ setup(
             "drive_node = rabbit_package.drive:main",
             "command_node = rabbit_package.command:main",
             "terminal_node = rabbit_package.terminal:main",
+            "camera_node = rabbit_package.camera:main",
         ],
     },
 )

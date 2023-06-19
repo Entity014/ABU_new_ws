@@ -1,6 +1,7 @@
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/command.py
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/drive.py
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/temp.py
+/home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/camera.py
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/terminal.py
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/controller.py
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/joyConnection.py
@@ -8,6 +9,7 @@
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/__pycache__/command.cpython-38.pyc
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/__pycache__/drive.cpython-38.pyc
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/__pycache__/temp.cpython-38.pyc
+/home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/__pycache__/camera.cpython-38.pyc
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/__pycache__/terminal.cpython-38.pyc
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/__pycache__/controller.cpython-38.pyc
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/__pycache__/joyConnection.cpython-38.pyc
@@ -22,6 +24,7 @@
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package-0.0.0-py3.8.egg-info/PKG-INFO
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package-0.0.0-py3.8.egg-info/zip-safe
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package-0.0.0-py3.8.egg-info/dependency_links.txt
+/home/entity014/ABU_new_ws/install/rabbit_package/lib/rabbit_package/camera_node
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/rabbit_package/command_node
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/rabbit_package/controller_node
 /home/entity014/ABU_new_ws/install/rabbit_package/lib/rabbit_package/drive_node

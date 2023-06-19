@@ -3,11 +3,11 @@ import cv2
 import math
 import numpy as np
 
-# import nanocamera as nano
 from rclpy.node import Node
 from sensor_msgs.msg import Image
 from rabbit_interfaces.msg import RabPwm
 from rclpy import qos
+from cv_bridge import CvBridge
 
 
 class TeriminalRabbit(Node):
@@ -21,19 +21,23 @@ class TeriminalRabbit(Node):
         )
         self.dat
 
+        # self.cam = self.create_subscription(
+        #     Image,
+        #     "color_image_topic",
+        #     self.sub_cam_callback,
+        #     qos_profile=qos.qos_profile_sensor_data,
+        # )
+        # self.cam
+
         self.shoot = False
         self.state = 0
         self.pwm = 0.0
         self.pwm_gui = []
 
         self.width_frame, self.height_frame = (600, 1024)
-        # self.cap = nano.Camera(width=1024, height=600, fps=30)
-        # self.cap = cv2.VideoCapture(0)
-        # self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.width_frame)
-        # self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height_frame)
-        self.debugState = False
-        self.cheatState = 0
         self.window_state = "fullscreen"
+
+        self.br = CvBridge()
 
     def sub_callback(self, msg):
         self.shoot = msg.shoot
@@ -41,6 +45,14 @@ class TeriminalRabbit(Node):
         self.pwm = msg.pwm_current
         self.pwm_gui = msg.pwm_state
         self.gui()
+
+    def sub_cam_callback(self, msg):
+        current_frame = self.br.imgmsg_to_cv2(msg)
+        cv2.imshow("ROS2 subscriber webcam", current_frame)
+        if cv2.waitKey(1) & 0xFF == ord("q"):
+            # closing all open windows
+            cv2.destroyAllWindows()
+            exit()
 
     def gui(self):
         block = [
@@ -85,7 +97,6 @@ class TeriminalRabbit(Node):
                 self.window_state = "fullscreen"
             else:
                 self.window_state = "normal"
-                self.cheatState += 1
 
     def draw_mode(self, frame, block, mode):
         text_temp = ["Near", "Medium", "Enemy", "Near Ally", "Far Enemy"]

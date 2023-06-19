@@ -17,6 +17,7 @@ def generate_launch_description():
     node_drive = Node(package="rabbit_package", executable="drive_node")
     node_command = Node(package="rabbit_package", executable="command_node")
     node_terminal = Node(package="rabbit_package", executable="terminal_node")
+    node_camera = Node(package="rabbit_package", executable="camera_node")
 
     ld.add_action(node_joy)
     ld.add_action(node_joyCon)
@@ -24,5 +25,6 @@ def generate_launch_description():
     ld.add_action(node_drive)
     ld.add_action(node_command)
     ld.add_action(node_terminal)
+    ld.add_action(node_camera)
 
     return ld

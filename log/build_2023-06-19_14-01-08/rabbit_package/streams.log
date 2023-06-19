@@ -1,0 +1,29 @@
+[1.251s] Invoking command in '/home/entity014/ABU_new_ws/src/rabbit_package': PYTHONPATH=/home/entity014/ABU_new_ws/build/rabbit_package/prefix_override:/home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages:/home/entity014/ABU_new_ws/install/rabbit_interfaces/lib/python3.8/site-packages:/home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages:/home/entity014/ros2_ws/install/swap_pillar/lib/python3.8/site-packages:/home/entity014/ros2_ws/install/micro_ros_msgs/lib/python3.8/site-packages:/home/entity014/ros2_ws/install/drive_base_msgs/lib/python3.8/site-packages:/home/entity014/abu_ws/install/wiimote_msgs/lib/python3.8/site-packages:/home/entity014/abu_ws/install/micro_ros_msgs/lib/python3.8/site-packages:/home/entity014/abu_ws/install/drive_base_msgs/lib/python3.8/site-packages:/home/entity014/abu_ws/install/abu_package/lib/python3.8/site-packages:/opt/ros/foxy/lib/python3.8/site-packages /usr/bin/python3 setup.py egg_info --egg-base ../../build/rabbit_package build --build-base /home/entity014/ABU_new_ws/build/rabbit_package/build install --record /home/entity014/ABU_new_ws/build/rabbit_package/install.log --install-scripts $base/lib/rabbit_package --single-version-externally-managed
+[1.637s] running egg_info
+[1.638s] writing ../../build/rabbit_package/rabbit_package.egg-info/PKG-INFO
+[1.638s] writing dependency_links to ../../build/rabbit_package/rabbit_package.egg-info/dependency_links.txt
+[1.638s] writing entry points to ../../build/rabbit_package/rabbit_package.egg-info/entry_points.txt
+[1.638s] writing requirements to ../../build/rabbit_package/rabbit_package.egg-info/requires.txt
+[1.639s] writing top-level names to ../../build/rabbit_package/rabbit_package.egg-info/top_level.txt
+[1.687s] reading manifest file '../../build/rabbit_package/rabbit_package.egg-info/SOURCES.txt'
+[1.688s] writing manifest file '../../build/rabbit_package/rabbit_package.egg-info/SOURCES.txt'
+[1.689s] running build
+[1.689s] running build_py
+[1.689s] copying rabbit_package/terminal.py -> /home/entity014/ABU_new_ws/build/rabbit_package/build/lib/rabbit_package
+[1.689s] running install
+[1.691s] running install_lib
+[1.692s] copying /home/entity014/ABU_new_ws/build/rabbit_package/build/lib/rabbit_package/terminal.py -> /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package
+[1.693s] byte-compiling /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package/terminal.py to terminal.cpython-38.pyc
+[1.698s] running install_data
+[1.698s] running install_egg_info
+[1.701s] removing '/home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package-0.0.0-py3.8.egg-info' (and everything under it)
+[1.701s] Copying ../../build/rabbit_package/rabbit_package.egg-info to /home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages/rabbit_package-0.0.0-py3.8.egg-info
+[1.702s] running install_scripts
+[1.726s] Installing camera_node script to /home/entity014/ABU_new_ws/install/rabbit_package/lib/rabbit_package
+[1.726s] Installing command_node script to /home/entity014/ABU_new_ws/install/rabbit_package/lib/rabbit_package
+[1.726s] Installing controller_node script to /home/entity014/ABU_new_ws/install/rabbit_package/lib/rabbit_package
+[1.727s] Installing drive_node script to /home/entity014/ABU_new_ws/install/rabbit_package/lib/rabbit_package
+[1.727s] Installing joyCon_node script to /home/entity014/ABU_new_ws/install/rabbit_package/lib/rabbit_package
+[1.727s] Installing terminal_node script to /home/entity014/ABU_new_ws/install/rabbit_package/lib/rabbit_package
+[1.727s] writing list of installed files to '/home/entity014/ABU_new_ws/build/rabbit_package/install.log'
+[1.756s] Invoked command in '/home/entity014/ABU_new_ws/src/rabbit_package' returned '0': PYTHONPATH=/home/entity014/ABU_new_ws/build/rabbit_package/prefix_override:/home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages:/home/entity014/ABU_new_ws/install/rabbit_interfaces/lib/python3.8/site-packages:/home/entity014/ABU_new_ws/install/rabbit_package/lib/python3.8/site-packages:/home/entity014/ros2_ws/install/swap_pillar/lib/python3.8/site-packages:/home/entity014/ros2_ws/install/micro_ros_msgs/lib/python3.8/site-packages:/home/entity014/ros2_ws/install/drive_base_msgs/lib/python3.8/site-packages:/home/entity014/abu_ws/install/wiimote_msgs/lib/python3.8/site-packages:/home/entity014/abu_ws/install/micro_ros_msgs/lib/python3.8/site-packages:/home/entity014/abu_ws/install/drive_base_msgs/lib/python3.8/site-packages:/home/entity014/abu_ws/install/abu_package/lib/python3.8/site-packages:/opt/ros/foxy/lib/python3.8/site-packages /usr/bin/python3 setup.py egg_info --egg-base ../../build/rabbit_package build --build-base /home/entity014/ABU_new_ws/build/rabbit_package/build install --record /home/entity014/ABU_new_ws/build/rabbit_package/install.log --install-scripts $base/lib/rabbit_package --single-version-externally-managed

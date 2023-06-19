@@ -10,6 +10,7 @@ setup.py
 ../../build/rabbit_package/rabbit_package.egg-info/zip-safe
 launch/rabbit.launch.py
 rabbit_package/__init__.py
+rabbit_package/camera.py
 rabbit_package/command.py
 rabbit_package/controller.py
 rabbit_package/drive.py

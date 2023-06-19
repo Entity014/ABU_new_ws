@@ -1,4 +1,5 @@
 [console_scripts]
+camera_node = rabbit_package.camera:main
 command_node = rabbit_package.command:main
 controller_node = rabbit_package.controller:main
 drive_node = rabbit_package.drive:main
