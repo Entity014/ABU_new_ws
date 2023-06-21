@@ -6,6 +6,8 @@ from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from rabbit_interfaces.msg import RabDict
 from rclpy import qos
+from rosbags.rosbag2 import Reader
+from rosbags.serde import deserialize_cdr
 
 
 class DriveRabbit(Node):
@@ -29,6 +31,7 @@ class DriveRabbit(Node):
         self.joyState = False
 
         self.distance = 0.0
+        self.state_speed = 0
         self.state_auto = 0
         self.preDriveMode = -1
         self.stateDriveMode = 0
@@ -58,7 +61,7 @@ class DriveRabbit(Node):
                 if self.buttons["L"] == 1:
                     self.stateDriveMode += 1
 
-            if self.state_auto == 0:
+            if self.state_speed == 0:
                 if (self.axes["AX"] != 0) or (self.axes["AY"] != 0):
                     y = -1 * self.axes["AX"]
                     x = -1 * self.axes["AY"]
@@ -101,11 +104,11 @@ class DriveRabbit(Node):
                 and (self.axes["LY"] == 0)
                 and (self.axes["LX"] == 0)
             ):
-                self.state_auto = 1
+                self.state_speed = 1
             else:
-                self.state_auto = 0
+                self.state_speed = 0
 
-            if self.state_auto == 1:
+            if self.state_speed == 1:
                 if self.distance > self.param_distance:
                     x = 0.707
                     y = 0.707
@@ -113,7 +116,7 @@ class DriveRabbit(Node):
                     x = -0.707
                     y = 0.707
                 else:
-                    self.state_auto = 0
+                    self.state_speed = 0
                     x = 0.0
                     y = 0.0
 
@@ -140,6 +143,23 @@ class DriveRabbit(Node):
             msg.angular.x = float(round(leftBack * 255))
             msg.angular.y = float(round(rightBack * 255))
 
+            if self.buttons["O"] == 1:
+                self.state_auto = 1
+            if self.state_auto == 1:
+                with Reader("/home/entity014/test") as reader:
+                    for connection, timestamp, rawdata in reader.messages():
+                        if connection.topic == "/drive_topic":
+                            msg_auto = deserialize_cdr(rawdata, connection.msgtype)
+
+                            if connection.msgtype == "geometry_msgs/msg/Twist":
+                                msg.linear.x = msg_auto.linear.x
+                                msg.linear.y = msg_auto.linear.y
+                                msg.angular.x = msg_auto.angular.x
+                                msg.angular.y = msg_auto.angular.y
+                                self.get_logger().info(str(msg.linear.x))
+                                self.sent_drive.publish(msg)
+                self.state_auto = 0
+
         except KeyError:
             pass
 
@@ -149,7 +169,8 @@ class DriveRabbit(Node):
             msg.angular.x = 0.0
             msg.angular.y = 0.0
 
-        self.sent_drive.publish(msg)
+        if self.state_auto == 0:
+            self.sent_drive.publish(msg)
 
 
 def main():

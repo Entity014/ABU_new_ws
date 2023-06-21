@@ -1,0 +1,10 @@
+[  2%] Built target rabbit_interfaces__cpp
+[ 12%] Built target rabbit_interfaces__rosidl_generator_c
+make[2]: *** No rule to make target '/opt/ros/foxy/lib/libfastrtps.so.2.1.3', needed by 'librabbit_interfaces__rosidl_typesupport_fastrtps_cpp.so'.  Stop.
+make[1]: *** [CMakeFiles/Makefile2:264: CMakeFiles/rabbit_interfaces__rosidl_typesupport_fastrtps_cpp.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+[ 33%] Built target rabbit_interfaces__rosidl_typesupport_introspection_c
+[ 33%] Built target rabbit_interfaces__rosidl_typesupport_c
+[ 43%] Built target rabbit_interfaces__rosidl_typesupport_introspection_cpp
+[ 53%] Built target rabbit_interfaces__rosidl_typesupport_cpp
+make: *** [Makefile:146: all] Error 2

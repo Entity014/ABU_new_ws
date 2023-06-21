@@ -1,0 +1,12 @@
+[0.028s] Invoking command in '/home/entity014/ABU_new_ws/build/rabbit_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/entity014/ABU_new_ws/install/rabbit_package:/home/entity014/ros2_ws/install/swap_pillar:/home/entity014/abu_ws/install/abu_package:/opt/ros/foxy /home/entity014/.local/bin/cmake --build /home/entity014/ABU_new_ws/build/rabbit_interfaces -- -j8 -l8
+[0.178s] [  2%] Built target rabbit_interfaces__cpp
+[0.197s] [ 12%] Built target rabbit_interfaces__rosidl_generator_c
+[0.216s] [ 33%] Built target rabbit_interfaces__rosidl_typesupport_introspection_c
+[0.216s] [ 33%] Built target rabbit_interfaces__rosidl_typesupport_c
+[0.217s] make[2]: *** No rule to make target '/opt/ros/foxy/lib/libfastrtps.so.2.1.3', needed by 'librabbit_interfaces__rosidl_typesupport_fastrtps_cpp.so'.  Stop.
+[0.217s] make[1]: *** [CMakeFiles/Makefile2:264: CMakeFiles/rabbit_interfaces__rosidl_typesupport_fastrtps_cpp.dir/all] Error 2
+[0.217s] make[1]: *** Waiting for unfinished jobs....
+[0.219s] [ 43%] Built target rabbit_interfaces__rosidl_typesupport_cpp
+[0.219s] [ 53%] Built target rabbit_interfaces__rosidl_typesupport_introspection_cpp
+[0.219s] make: *** [Makefile:146: all] Error 2
+[0.224s] Invoked command in '/home/entity014/ABU_new_ws/build/rabbit_interfaces' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/entity014/ABU_new_ws/install/rabbit_package:/home/entity014/ros2_ws/install/swap_pillar:/home/entity014/abu_ws/install/abu_package:/opt/ros/foxy /home/entity014/.local/bin/cmake --build /home/entity014/ABU_new_ws/build/rabbit_interfaces -- -j8 -l8

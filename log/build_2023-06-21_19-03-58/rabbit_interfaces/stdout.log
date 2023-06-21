@@ -1,0 +1,6 @@
+[  2%] Built target rabbit_interfaces__cpp
+[ 12%] Built target rabbit_interfaces__rosidl_generator_c
+[ 33%] Built target rabbit_interfaces__rosidl_typesupport_introspection_c
+[ 33%] Built target rabbit_interfaces__rosidl_typesupport_c
+[ 43%] Built target rabbit_interfaces__rosidl_typesupport_cpp
+[ 53%] Built target rabbit_interfaces__rosidl_typesupport_introspection_cpp

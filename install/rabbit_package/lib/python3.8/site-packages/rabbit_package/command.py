@@ -123,17 +123,15 @@ class CommandRabbit(Node):
             # //------------------------------------------------------------------------------------------------//
             if self.buttons["T"] == 1:
                 msg.angular.x = 1.0
-            elif self.buttons["L1"] == 1 and self.buttons["R1"] == 1:
-                msg.angular.x = 30.0
-            elif self.buttons["L1"] == 1:
-                msg.angular.x = 10.0
+            if self.buttons["L1"] == 1:
+                msg.angular.y = 10.0
             elif self.buttons["S"] == 1:
-                msg.angular.x = 20.0
+                msg.angular.y = 20.0
 
-            elif self.buttons["R1"] == 1:
-                msg.angular.x = 999.0
-            elif self.buttons["O"] == 1:
-                msg.angular.x = 888.0
+            if self.buttons["R1"] == 1:
+                msg.angular.z = 999.0
+            if self.buttons["O"] == 1:
+                msg.linear.y = 888.0
 
             self.save_pwm = msg.linear.x
 
