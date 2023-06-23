@@ -1,2 +1,0 @@
-Invoking command in '/home/entity014/ABU_new_ws/build/rabbit_interfaces': /home/entity014/.local/bin/cmake /home/entity014/ABU_new_ws/src/rabbit_interfaces -DCMAKE_INSTALL_PREFIX=/home/entity014/ABU_new_ws/install/rabbit_interfaces
-Invoked command in '/home/entity014/ABU_new_ws/build/rabbit_interfaces' returned '1': /home/entity014/.local/bin/cmake /home/entity014/ABU_new_ws/src/rabbit_interfaces -DCMAKE_INSTALL_PREFIX=/home/entity014/ABU_new_ws/install/rabbit_interfaces

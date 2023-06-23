@@ -3,11 +3,12 @@ import numpy as np
 import math
 
 from rclpy.node import Node
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Twist, Vector3
 from rabbit_interfaces.msg import RabDict
 from rclpy import qos
 from rosbags.rosbag2 import Reader
 from rosbags.serde import deserialize_cdr
+from pathlib import Path
 
 
 class DriveRabbit(Node):
@@ -36,7 +37,50 @@ class DriveRabbit(Node):
         self.preDriveMode = -1
         self.stateDriveMode = 0
 
+        self.preAuto = -1
+
         self.param_distance = 10
+
+        self.auto_drive_temp = []
+        self.counter = 0
+
+        self.declare_parameters("", [("speed_motor", None), ("path_auto", None)])
+        self.speed = (
+            self.get_parameter("speed_motor").get_parameter_value().double_value
+        ) / 255
+        self.path_auto = (
+            self.get_parameter("path_auto").get_parameter_value().string_value
+        )
+
+        with Reader(f"{Path.home()}{self.path_auto}") as reader:
+            # iterate over messages
+            for connection, timestamp, rawdata in reader.messages():
+                if (
+                    connection.topic == "/drive_topic"
+                    and connection.msgtype == "geometry_msgs/msg/Twist"
+                ):
+                    msg_auto = deserialize_cdr(rawdata, connection.msgtype)
+                    temp_msg_auto = Twist(
+                        linear=Vector3(
+                            x=msg_auto.linear.x,
+                            y=msg_auto.linear.y,
+                            z=msg_auto.linear.z,
+                        ),
+                        angular=Vector3(
+                            x=msg_auto.angular.x,
+                            y=msg_auto.angular.y,
+                            z=msg_auto.angular.z,
+                        ),
+                    )
+                    if (
+                        temp_msg_auto.linear.x != 0
+                        or temp_msg_auto.linear.y != 0
+                        or temp_msg_auto.linear.z != 0
+                        or temp_msg_auto.angular.x != 0
+                        or temp_msg_auto.angular.y != 0
+                        or temp_msg_auto.angular.z != 0
+                    ):
+                        self.auto_drive_temp.append(temp_msg_auto)
 
     def sub_callback(self, msg):
         self.axes = dict(zip(msg.key_axes, msg.value_axes))
@@ -66,8 +110,8 @@ class DriveRabbit(Node):
                     y = -1 * self.axes["AX"]
                     x = -1 * self.axes["AY"]
                     if self.stateDriveMode == 1:
-                        x = np.interp(x, [-1, 1], [-0.392, 0.392])
-                        y = np.interp(y, [-1, 1], [-0.392, 0.392])
+                        x = np.interp(x, [-1, 1], [-1 * self.speed, self.speed])
+                        y = np.interp(y, [-1, 1], [-1 * self.speed, self.speed])
                     else:
                         self.stateDriveMode = 0
 
@@ -143,10 +187,21 @@ class DriveRabbit(Node):
             msg.angular.x = float(round(leftBack * 255))
             msg.angular.y = float(round(rightBack * 255))
 
-            if self.buttons["O"] == 1:
-                self.state_auto = 1
-            if self.state_auto == 1:
+            if self.preAuto != self.buttons["O"]:
+                self.preAuto = self.buttons["O"]
+                if self.preAuto == 1:
+                    self.state_auto += 1
+            if x != 0 or y != 0 or turn != 0 or self.state_auto >= 2:
                 self.state_auto = 0
+                self.counter = 0
+
+            if self.state_auto == 1:
+                if self.counter != len(self.auto_drive_temp):
+                    msg = self.auto_drive_temp[self.counter]
+                    self.counter += 1
+                else:
+                    self.counter = 0
+                    self.state_auto = 0
 
         except KeyError:
             pass
@@ -157,6 +212,7 @@ class DriveRabbit(Node):
             msg.angular.x = 0.0
             msg.angular.y = 0.0
 
+        # self.get_logger().info(f"{self.path_auto}")
         self.sent_drive.publish(msg)
 
 

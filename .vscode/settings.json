@@ -26,5 +26,6 @@
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
-    "python.formatting.provider": "none"
+    "python.formatting.provider": "none",
+    "cmake.sourceDirectory": "/home/entity014/ABU_new_ws/src/rabbit_interfaces"
 }

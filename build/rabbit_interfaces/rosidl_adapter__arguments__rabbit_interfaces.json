@@ -1,7 +1,0 @@
-{
-  "package_name": "rabbit_interfaces",
-  "non_idl_tuples": [
-    "/home/entity014/ABU_new_ws/src/rabbit_interfaces:msg/RabDict.msg",
-    "/home/entity014/ABU_new_ws/src/rabbit_interfaces:msg/RabPwm.msg"
-  ]
-}

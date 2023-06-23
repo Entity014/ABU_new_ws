@@ -1,0 +1,8 @@
+drive_rabbit_node:
+  ros__parameters:
+    speed_motor: 100.0
+    path_auto: "/test"
+
+joystick_node:
+  ros__parameters:
+    type_joy: "xbox"
