@@ -215,8 +215,8 @@ void pick_fun(float msg)
   if (lim_switch1() == false)
   {
     pick_state = "up";
-    digitalWrite(pick_ina, LOW);
-    digitalWrite(pick_inb, LOW);
+    digitalWrite(pick_ina, HIGH);
+    digitalWrite(pick_inb, HIGH);
     if (onceStop)
     {
       analogWrite(pick_pwm, 0);
@@ -226,8 +226,8 @@ void pick_fun(float msg)
   else if (lim_switch2() == false)
   {
     pick_state = "down";
-    digitalWrite(pick_ina, LOW);
-    digitalWrite(pick_inb, LOW);
+    digitalWrite(pick_ina, HIGH);
+    digitalWrite(pick_inb, HIGH);
     if (onceStop)
     {
       analogWrite(pick_pwm, 0);
@@ -242,7 +242,7 @@ void pick_fun(float msg)
       digitalWrite(pick_inb, LOW);
       if (onceReload)
       {
-        analogWrite(pick_pwm, pwmReload);
+        analogWrite(pick_pwm, pwmReloadDown);
         onceReload = false;
       }
     }
@@ -252,7 +252,7 @@ void pick_fun(float msg)
       digitalWrite(pick_inb, HIGH);
       if (onceReload)
       {
-        analogWrite(pick_pwm, pwmReload);
+        analogWrite(pick_pwm, pwmReloadUp);
         onceReload = false;
       }
     }

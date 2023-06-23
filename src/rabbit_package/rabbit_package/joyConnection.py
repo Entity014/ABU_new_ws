@@ -31,7 +31,9 @@ class JoyConnectionChecker(Node):
 def main(args=None):
     rclpy.init(args=args)
     joy_checker = JoyConnectionChecker()
-    joy_checker.create_subscription(Joy, "joy", joy_checker.joy_callback, 10)
+    joy_checker.create_subscription(
+        Joy, "joy", joy_checker.joy_callback, qos_profile=qos.qos_profile_sensor_data
+    )
     rclpy.spin(joy_checker)
     joy_checker.destroy_node()
     rclpy.shutdown()

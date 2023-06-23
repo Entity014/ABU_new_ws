@@ -4,6 +4,7 @@ import math
 import numpy as np
 
 from rclpy.node import Node
+from std_msgs.msg import Bool
 from sensor_msgs.msg import Image
 from rabbit_interfaces.msg import RabPwm
 from rclpy import qos
@@ -21,6 +22,14 @@ class TeriminalRabbit(Node):
         )
         self.dat
 
+        self.auto = self.create_subscription(
+            Bool,
+            "auto_topic",
+            self.sub_auto_callback,
+            qos_profile=qos.qos_profile_sensor_data,
+        )
+        self.auto
+
         # self.cam = self.create_subscription(
         #     Image,
         #     "color_image_topic",
@@ -28,6 +37,8 @@ class TeriminalRabbit(Node):
         #     qos_profile=qos.qos_profile_sensor_data,
         # )
         # self.cam
+
+        self.isAuto = False
 
         self.shoot = False
         self.state = 0
@@ -45,6 +56,7 @@ class TeriminalRabbit(Node):
         self.pwm = msg.pwm_current
         self.pwm_gui = msg.pwm_state
         self.gui()
+        # self.get_logger().info(f"{self.isAuto}")
 
     def sub_cam_callback(self, msg):
         current_frame = self.br.imgmsg_to_cv2(msg)
@@ -53,6 +65,12 @@ class TeriminalRabbit(Node):
             # closing all open windows
             cv2.destroyAllWindows()
             exit()
+
+    def sub_auto_callback(self, msg):
+        if msg.data:
+            self.isAuto = True
+        else:
+            self.isAuto = False
 
     def gui(self):
         block = [
@@ -169,12 +187,20 @@ class TeriminalRabbit(Node):
         )
         cv2.rectangle(frame, (0, 0), (50, self.height_frame), (0, 0, 0), 2)
 
-        if not self.shoot:
+        if self.isAuto:
             cv2.rectangle(
                 frame,
                 (50, 400),
                 (self.width_frame, int(self.height_frame)),
-                (255, 204, 243),
+                (61, 76, 242),
+                -1,
+            )
+        elif self.shoot:
+            cv2.rectangle(
+                frame,
+                (50, 400),
+                (self.width_frame, int(self.height_frame)),
+                (162, 223, 0),
                 -1,
             )
         else:
@@ -182,7 +208,7 @@ class TeriminalRabbit(Node):
                 frame,
                 (50, 400),
                 (self.width_frame, int(self.height_frame)),
-                (162, 223, 0),
+                (255, 204, 243),
                 -1,
             )
         cv2.rectangle(

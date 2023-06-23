@@ -125,7 +125,7 @@ class CommandRabbit(Node):
                 msg.angular.x = 1.0
             if self.buttons["L1"] == 1:
                 msg.angular.y = 10.0
-            elif self.buttons["S"] == 1:
+            if self.buttons["S"] == 1:
                 msg.angular.y = 20.0
 
             if self.buttons["R1"] == 1:
