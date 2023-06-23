@@ -107,10 +107,12 @@ class DriveRabbit(Node):
         msg.angular.y = 0.0
 
         try:
-            if self.preDriveMode != self.buttons["L"]:
-                self.preDriveMode = self.buttons["L"]
-                if self.buttons["L"] == 1:
+            if self.preDriveMode != self.buttons["LS"]:
+                self.preDriveMode = self.buttons["LS"]
+                if self.buttons["LS"] == 1:
                     self.stateDriveMode += 1
+            if self.stateDriveMode > 1:
+                self.stateDriveMode = 0
 
             if self.state_speed == 0:
                 if (self.axes["AX"] != 0) or (self.axes["AY"] != 0):
@@ -119,14 +121,13 @@ class DriveRabbit(Node):
                     if self.stateDriveMode == 1:
                         x = np.interp(x, [-1, 1], [-1 * self.speed, self.speed])
                         y = np.interp(y, [-1, 1], [-1 * self.speed, self.speed])
-                    else:
-                        self.stateDriveMode = 0
 
                 else:
                     y = -1 * self.axes["LX"]
                     x = -1 * self.axes["LY"]
-                    if self.stateDriveMode > 1:
-                        self.stateDriveMode = 0
+                    if self.stateDriveMode == 1:
+                        x = np.interp(x, [-1, 1], [-1 * self.speed, self.speed])
+                        y = np.interp(y, [-1, 1], [-1 * self.speed, self.speed])
                     # if self.stateDriveMode == 1:
                     #     if y != 0.0:
                     #         y = (abs(y) / y) * 0.55
@@ -172,7 +173,7 @@ class DriveRabbit(Node):
                     y = 0.0
 
             y = y * -1
-            turn = np.interp(self.axes["RX"], [-1, 1], [-0.392, 0.392])
+            turn = np.interp(self.axes["RX"], [-1, 1], [-1 * self.speed, self.speed])
             theta = math.atan2(y, x)
             power = math.hypot(x, y)
             sin = math.sin(theta - math.pi / 4)
@@ -194,8 +195,8 @@ class DriveRabbit(Node):
             msg.angular.x = float(round(leftBack * 255))
             msg.angular.y = float(round(rightBack * 255))
 
-            if self.preAuto != self.buttons["O"]:
-                self.preAuto = self.buttons["O"]
+            if self.preAuto != self.buttons["R"]:
+                self.preAuto = self.buttons["R"]
                 if self.preAuto == 1:
                     self.state_auto += 1
             if x != 0 or y != 0 or turn != 0 or self.state_auto >= 2:

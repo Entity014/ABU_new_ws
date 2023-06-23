@@ -77,8 +77,8 @@ class CommandRabbit(Node):
                 self.write_configs(f"param{self.state+1}", str(self.pwm))
 
             # //------------------------------------------------------------------------------------------------//
-            if self.preStateShot != self.buttons["R"]:
-                self.preStateShot = self.buttons["R"]
+            if self.preStateShot != self.buttons["O"]:
+                self.preStateShot = self.buttons["O"]
                 if self.preStateShot == 1:
                     self.state += 1
             if self.state > 4:
