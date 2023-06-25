@@ -22,14 +22,6 @@ class TeriminalRabbit(Node):
         )
         self.dat
 
-        self.auto = self.create_subscription(
-            Bool,
-            "auto_topic",
-            self.sub_auto_callback,
-            qos_profile=qos.qos_profile_sensor_data,
-        )
-        self.auto
-
         # self.cam = self.create_subscription(
         #     Image,
         #     "color_image_topic",
@@ -38,8 +30,7 @@ class TeriminalRabbit(Node):
         # )
         # self.cam
 
-        self.isAuto = False
-
+        self.team = ""
         self.shoot = False
         self.state = 0
         self.pwm = 0.0
@@ -51,6 +42,7 @@ class TeriminalRabbit(Node):
         self.br = CvBridge()
 
     def sub_callback(self, msg):
+        self.team = msg.type_team
         self.shoot = msg.shoot
         self.state = msg.state
         self.pwm = msg.pwm_current
@@ -65,12 +57,6 @@ class TeriminalRabbit(Node):
             # closing all open windows
             cv2.destroyAllWindows()
             exit()
-
-    def sub_auto_callback(self, msg):
-        if msg.data:
-            self.isAuto = True
-        else:
-            self.isAuto = False
 
     def gui(self):
         block = [
@@ -187,22 +173,23 @@ class TeriminalRabbit(Node):
         )
         cv2.rectangle(frame, (0, 0), (50, self.height_frame), (0, 0, 0), 2)
 
-        if self.isAuto:
-            cv2.rectangle(
-                frame,
-                (50, 400),
-                (self.width_frame, int(self.height_frame)),
-                (61, 76, 242),
-                -1,
-            )
-        elif self.shoot:
-            cv2.rectangle(
-                frame,
-                (50, 400),
-                (self.width_frame, int(self.height_frame)),
-                (162, 223, 0),
-                -1,
-            )
+        if self.shoot:
+            if self.team == "BLUE":
+                cv2.rectangle(
+                    frame,
+                    (50, 400),
+                    (self.width_frame, int(self.height_frame)),
+                    (227, 150, 90),
+                    -1,
+                )
+            else:
+                cv2.rectangle(
+                    frame,
+                    (50, 400),
+                    (self.width_frame, int(self.height_frame)),
+                    (104, 115, 237),
+                    -1,
+                )
         else:
             cv2.rectangle(
                 frame,

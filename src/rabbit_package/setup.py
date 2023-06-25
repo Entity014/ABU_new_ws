@@ -30,7 +30,6 @@ setup(
             "command_node = rabbit_package.command:main",
             "terminal_node = rabbit_package.terminal:main",
             "camera_node = rabbit_package.camera:main",
-            "param_node = rabbit_package.param:main",
         ],
     },
 )

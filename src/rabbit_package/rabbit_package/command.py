@@ -41,24 +41,29 @@ class CommandRabbit(Node):
         self.counter = 0
 
         self.assis_shoot = [0, 0, 0, 0, 0]
-        self.list_debount_r = []
-        self.list_debount_l = []
 
         self.preShoot = -1
         self.preStateShot = -1
         self.stateShoot = 0
 
-        home = str(Path.home())
-        file = "/config.ini"
-        self.file_path = home + file
+        self.preChangeType1 = -1
+        self.preChangeType2 = -1
+        self.changingTeam = False
+
+        self.typeTeam = "BLUE"
+        self.file_path = f"{Path.home()}/config.ini"
         self.config = configparser.ConfigParser()
         self.config.read(self.file_path)
-        self.param_pwm_motor1 = float(self.config["DEFAULT"]["param1"])  # ใกล้
-        self.param_pwm_motor2 = float(self.config["DEFAULT"]["param2"])  # กลาง
-        self.param_pwm_motor3 = float(self.config["DEFAULT"]["param3"])  # ฝั่งตรงข้าม
-        self.param_pwm_motor4 = float(self.config["DEFAULT"]["param4"])  # ใกล้ช้าง
+        self.param_pwm_motor1 = float(self.config[f"{self.typeTeam}"]["param1"])  # ใกล้
+        self.param_pwm_motor2 = float(self.config[f"{self.typeTeam}"]["param2"])  # กลาง
+        self.param_pwm_motor3 = float(
+            self.config[f"{self.typeTeam}"]["param3"]
+        )  # ฝั่งตรงข้าม
+        self.param_pwm_motor4 = float(
+            self.config[f"{self.typeTeam}"]["param4"]
+        )  # ใกล้ช้าง
         self.param_pwm_motor5 = float(
-            self.config["DEFAULT"]["param5"]
+            self.config[f"{self.typeTeam}"]["param5"]
         )  # ฝั่งตรงข้ามไกล
 
     def sub_callback(self, msg):
@@ -113,11 +118,26 @@ class CommandRabbit(Node):
             elif self.stateShoot == 2:
                 self.stateShoot = 0
             # //------------------------------------------------------------------------------------------------//
+            if (
+                self.preChangeType1 != self.buttons["R1"]
+                and self.preChangeType2 != self.buttons["R2"]
+            ):
+                self.preChangeType1 = self.buttons["R1"]
+                self.preChangeType2 = self.buttons["R2"]
+                if self.preChangeType1 == 1 and self.preChangeType2 == 1:
+                    if self.typeTeam == "BLUE":
+                        self.typeTeam = "RED"
+                    else:
+                        self.typeTeam = "BLUE"
+                    self.changingTeam = True
+                    self.changePwmTeam()
+                else:
+                    self.changingTeam = False
             if (self.buttons["L2"] == 1) and (self.buttons["R2"] == 1):
                 self.assis_shoot[self.state] = 0
-            elif self.buttons["L2"] == 1:
+            elif self.buttons["L2"] == 1 and not self.changingTeam:
                 self.assis_shoot[self.state] += 0.5
-            elif self.buttons["R2"] == 1:
+            elif self.buttons["R2"] == 1 and not self.changingTeam:
                 self.assis_shoot[self.state] -= 0.5
 
             # //------------------------------------------------------------------------------------------------//
@@ -130,18 +150,18 @@ class CommandRabbit(Node):
 
             if self.buttons["R1"] == 1:
                 msg.angular.z = 999.0
-            if self.buttons["O"] == 1:
-                msg.linear.y = 888.0
 
             self.save_pwm = msg.linear.x
 
         except KeyError:
             pass
 
+        # self.get_logger().info(f"{self.typeTeam}")
         self.sent_command.publish(msg)
 
     def send_data_gui_callback(self):
         msg = RabPwm()
+        msg.type_team = self.typeTeam
         msg.pwm_current = self.pwm
         msg.pwm_state = [
             self.param_pwm_motor1,
@@ -162,20 +182,33 @@ class CommandRabbit(Node):
         self.config.read(self.file_path)
         a = {}
         for i in range(len(self.assis_shoot)):
-            a[f"param{i+1}"] = float(self.config["DEFAULT"][f"param{i+1}"])
+            a[f"param{i+1}"] = float(self.config[f"{self.typeTeam}"][f"param{i+1}"])
         return a
 
     def write_configs(self, index, val):
         self.config.read(self.file_path)
-        self.config.set("DEFAULT", index, val)
+        self.config.set(f"{self.typeTeam}", index, val)
         with open(self.file_path, "w") as config_file:
             self.config.write(config_file)
-        self.param_pwm_motor1 = float(self.config["DEFAULT"]["param1"])
-        self.param_pwm_motor2 = float(self.config["DEFAULT"]["param2"])
-        self.param_pwm_motor3 = float(self.config["DEFAULT"]["param3"])
-        self.param_pwm_motor4 = float(self.config["DEFAULT"]["param4"])
-        self.param_pwm_motor5 = float(self.config["DEFAULT"]["param5"])
+        self.param_pwm_motor1 = float(self.config[f"{self.typeTeam}"]["param1"])
+        self.param_pwm_motor2 = float(self.config[f"{self.typeTeam}"]["param2"])
+        self.param_pwm_motor3 = float(self.config[f"{self.typeTeam}"]["param3"])
+        self.param_pwm_motor4 = float(self.config[f"{self.typeTeam}"]["param4"])
+        self.param_pwm_motor5 = float(self.config[f"{self.typeTeam}"]["param5"])
         self.assis_shoot[int(str(index)[-1]) - 1] = 0
+
+    def changePwmTeam(self):
+        self.param_pwm_motor1 = float(self.config[f"{self.typeTeam}"]["param1"])  # ใกล้
+        self.param_pwm_motor2 = float(self.config[f"{self.typeTeam}"]["param2"])  # กลาง
+        self.param_pwm_motor3 = float(
+            self.config[f"{self.typeTeam}"]["param3"]
+        )  # ฝั่งตรงข้าม
+        self.param_pwm_motor4 = float(
+            self.config[f"{self.typeTeam}"]["param4"]
+        )  # ใกล้ช้าง
+        self.param_pwm_motor5 = float(
+            self.config[f"{self.typeTeam}"]["param5"]
+        )  # ฝั่งตรงข้ามไกล
 
 
 def main():

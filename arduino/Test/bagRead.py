@@ -16,13 +16,4 @@ with Reader(f"{Path.home()}/test") as reader:
                 angular=Vector3(x=msg.angular.x, y=msg.angular.y, z=msg.angular.z),
             )
 
-            # Check if any component of lx.linear or lx.angular is greater than 0
-            if (
-                lx.linear.x != 0
-                or lx.linear.y != 0
-                or lx.linear.z != 0
-                or lx.angular.x != 0
-                or lx.angular.y != 0
-                or lx.angular.z != 0
-            ):
-                print(lx)
+            print(lx)

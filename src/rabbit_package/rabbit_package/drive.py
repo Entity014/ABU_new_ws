@@ -28,11 +28,6 @@ class DriveRabbit(Node):
         )
         self.sent_drive_timer = self.create_timer(0.05, self.sent_drive_callback)
 
-        self.sent_auto = self.create_publisher(
-            Bool, "auto_topic", qos_profile=qos.qos_profile_system_default
-        )
-        self.sent_auto_timer = self.create_timer(0.05, self.sent_auto_callback)
-
         self.axes = {}
         self.buttons = {}
         self.joyState = False
@@ -44,7 +39,6 @@ class DriveRabbit(Node):
 
         self.state_auto = 0
         self.preAuto = -1
-        self.boolAuto = False
 
         self.param_distance = 10
 
@@ -107,9 +101,9 @@ class DriveRabbit(Node):
         msg.angular.y = 0.0
 
         try:
-            if self.preDriveMode != self.buttons["LS"]:
-                self.preDriveMode = self.buttons["LS"]
-                if self.buttons["LS"] == 1:
+            if self.preDriveMode != self.buttons["L"]:
+                self.preDriveMode = self.buttons["L"]
+                if self.buttons["L"] == 1:
                     self.stateDriveMode += 1
             if self.stateDriveMode > 1:
                 self.stateDriveMode = 0
@@ -202,18 +196,14 @@ class DriveRabbit(Node):
             if x != 0 or y != 0 or turn != 0 or self.state_auto >= 2:
                 self.state_auto = 0
                 self.counter = 0
-                self.boolAuto = False
 
             if self.state_auto == 1:
                 if self.counter != len(self.auto_drive_temp):
                     msg = self.auto_drive_temp[self.counter]
-                    self.boolAuto = True
                     self.counter += 1
                 else:
                     self.counter = 0
                     self.state_auto = 0
-                    self.boolAuto = False
-
         except KeyError:
             pass
 
@@ -225,11 +215,6 @@ class DriveRabbit(Node):
 
         # self.get_logger().info(f"{Path.home()}/{self.path_auto}")
         self.sent_drive.publish(msg)
-
-    def sent_auto_callback(self):
-        msg = Bool()
-        msg.data = self.boolAuto
-        self.sent_auto.publish(msg)
 
 
 def main():
