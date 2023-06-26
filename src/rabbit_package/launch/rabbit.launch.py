@@ -23,9 +23,11 @@ def generate_launch_description():
     node_controller = Node(
         package="rabbit_package", executable="controller_node", parameters=[config]
     )
+    node_command = Node(
+        package="rabbit_package", executable="command_node", parameters=[config]
+    )
     node_joy = Node(package="joy", executable="joy_node")
     node_joyCon = Node(package="rabbit_package", executable="joyCon_node")
-    node_command = Node(package="rabbit_package", executable="command_node")
     node_terminal = Node(package="rabbit_package", executable="terminal_node")
     node_camera = Node(package="rabbit_package", executable="camera_node")
 

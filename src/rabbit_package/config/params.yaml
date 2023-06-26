@@ -1,8 +1,19 @@
 drive_rabbit_node:
   ros__parameters:
     speed_motor: 100.0
-    path_auto: "test6"
+    path_auto: "test"
 
 joystick_node:
   ros__parameters:
     type_joy: "xbox"
+
+command_rabbit_node:
+  ros__parameters:
+    team: "blue"
+    boot:
+      pwm: 255.0
+      delay: 0.5
+      delayPre: 0.8
+    dec:
+      pwm: 80.0
+      delay: 0.5

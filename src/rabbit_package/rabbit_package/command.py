@@ -31,6 +31,18 @@ class CommandRabbit(Node):
         )
         self.send_data_gui_timer = self.create_timer(0.05, self.send_data_gui_callback)
 
+        self.declare_parameters(
+            "",
+            [
+                ("team", None),
+                ("boot.pwm", None),
+                ("dec.pwm", None),
+                ("boot.delay", None),
+                ("boot.delayPre", None),
+                ("dec.delay", None),
+            ],
+        )
+
         self.axes = {}
         self.buttons = {}
         self.joyState = False
@@ -42,6 +54,7 @@ class CommandRabbit(Node):
 
         self.assis_shoot = [0, 0, 0, 0, 0]
 
+        self.prePwm = -1
         self.preShoot = -1
         self.preStateShot = -1
         self.stateShoot = 0
@@ -50,7 +63,33 @@ class CommandRabbit(Node):
         self.preChangeType2 = -1
         self.changingTeam = False
 
-        self.typeTeam = "BLUE"
+        self.preBootShoot = -1
+        self.oncePwm = False
+        self.isPreBooted = False
+        self.isBooted = False
+        self.isDelayBoot = False
+        self.delayPreBoot = (
+            self.get_parameter("boot.delayPre").get_parameter_value().double_value
+        )
+        self.delayBoot = (
+            self.get_parameter("boot.delay").get_parameter_value().double_value
+        )
+        self.booster_PWM = (
+            self.get_parameter("boot.pwm").get_parameter_value().double_value
+        )
+
+        self.isDelayDec = False
+        self.isDec = False
+        self.delayDec = (
+            self.get_parameter("dec.delay").get_parameter_value().double_value
+        )
+        self.decelerator_PWM = (
+            self.get_parameter("dec.pwm").get_parameter_value().double_value
+        )
+
+        self.typeTeam = (
+            self.get_parameter("team").get_parameter_value().string_value.upper()
+        )
         self.file_path = f"{Path.home()}/config.ini"
         self.config = configparser.ConfigParser()
         self.config.read(self.file_path)
@@ -85,6 +124,9 @@ class CommandRabbit(Node):
             if self.preStateShot != self.buttons["O"]:
                 self.preStateShot = self.buttons["O"]
                 if self.preStateShot == 1:
+                    if self.stateShoot == 1:
+                        self.prePwm = self.pwm
+                        self.oncePwm = True
                     self.state += 1
             if self.state > 4:
                 self.state = 0
@@ -111,12 +153,29 @@ class CommandRabbit(Node):
                 if self.buttons["X"] == 1:
                     self.stateShoot += 1
 
+            # //------------------------------------------------------------------------------------------------//
             if self.stateShoot == 0:
                 msg.linear.x = 0.0
             elif self.stateShoot == 1:
+                if self.preBootShoot != self.buttons["R1"]:
+                    self.preBootShoot = self.buttons["R1"]
+                    if self.preBootShoot == 1:
+                        self.isPreBooted = True
+                        self.isBooted = True
+                if self.oncePwm:
+                    self.oncePwm = False
+                    if self.prePwm < self.pwm:
+                        self.isBooted = True
+                    elif self.prePwm > self.pwm:
+                        self.isDec = True
+                if self.isBooted:
+                    self.bootPwm()
+                elif self.isDec:
+                    self.decPwm()
                 msg.linear.x = self.pwm
             elif self.stateShoot == 2:
                 self.stateShoot = 0
+
             # //------------------------------------------------------------------------------------------------//
             if (
                 self.preChangeType1 != self.buttons["R1"]
@@ -151,12 +210,13 @@ class CommandRabbit(Node):
             if self.buttons["R1"] == 1:
                 msg.angular.z = 999.0
 
+            # //------------------------------------------------------------------------------------------------//
             self.save_pwm = msg.linear.x
 
         except KeyError:
             pass
 
-        # self.get_logger().info(f"{self.typeTeam}")
+        # self.get_logger().info(f"{self.isBooted} {self.isPreBooted}")
         self.sent_command.publish(msg)
 
     def send_data_gui_callback(self):
@@ -209,6 +269,36 @@ class CommandRabbit(Node):
         self.param_pwm_motor5 = float(
             self.config[f"{self.typeTeam}"]["param5"]
         )  # ฝั่งตรงข้ามไกล
+
+    def bootPwm(self):
+        if not self.isDelayBoot:
+            self.isDelayBoot = True
+            self.startTimeBoot = self.get_clock().now()
+
+        current_time = self.get_clock().now()
+        elapsed_time = (current_time - self.startTimeBoot).nanoseconds / 1e9
+        if not self.isPreBooted:
+            self.pwm = self.booster_PWM
+
+        if elapsed_time >= self.delayPreBoot and self.isPreBooted:
+            self.isDelayBoot = False
+            self.isPreBooted = False
+        elif elapsed_time >= self.delayBoot and not self.isPreBooted:
+            self.isDelayBoot = False
+            self.isBooted = False
+
+    def decPwm(self):
+        if not self.isDelayDec:
+            self.isDelayDec = True
+            self.startTimeDec = self.get_clock().now()
+
+        current_time = self.get_clock().now()
+        elapsed_time = (current_time - self.startTimeDec).nanoseconds / 1e9
+        self.pwm = self.decelerator_PWM
+
+        if elapsed_time >= self.delayBoot:
+            self.isDelayDec = False
+            self.isDec = False
 
 
 def main():
