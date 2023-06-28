@@ -1,6 +1,6 @@
 // ? PWM
-#define pwmReloadUp 200
-#define pwmReloadDown 70
+#define pwmReloadUp 100
+#define pwmReloadDown 100
 #define pwmSpring 255
 #define pwmUpDown 255
 

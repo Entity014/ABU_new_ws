@@ -157,7 +157,7 @@ class CommandRabbit(Node):
             if self.stateShoot == 0:
                 msg.linear.x = 0.0
             elif self.stateShoot == 1:
-                if self.preBootShoot != self.buttons["R1"]:
+                if self.preBootShoot != self.buttons["R1"] and self.pwm >= 180.0:
                     self.preBootShoot = self.buttons["R1"]
                     if self.preBootShoot == 1:
                         self.isPreBooted = True
@@ -206,8 +206,7 @@ class CommandRabbit(Node):
                 msg.angular.y = 10.0
             if self.buttons["S"] == 1:
                 msg.angular.y = 20.0
-
-            if self.buttons["R1"] == 1:
+            if self.buttons["R1"] == 1 and not self.changingTeam:
                 msg.angular.z = 999.0
 
             # //------------------------------------------------------------------------------------------------//

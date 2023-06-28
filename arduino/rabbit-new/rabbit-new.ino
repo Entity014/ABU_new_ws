@@ -1,3 +1,4 @@
+#include <ACS712.h>
 #include <micro_ros_arduino.h>
 
 #include <stdio.h>
@@ -46,13 +47,18 @@ float keep_pwmm = 0;
 
 float prePwm = -1;
 float preUp_Down = -1;
+float preDown_Auto = -1;
 float preReload = -1;
 float preSpring = -1;
 
+bool isReloading = false;
+
 bool once = false;
 bool onceReload = false;
+bool oncePullback = false;
 bool onceStop = false;
 bool onceUp_Down = false;
+bool onceDown_Auto = false;
 bool onceSpring = false;
 bool onceSpringAuto = false;
 bool onceSpringAutoStop = false;
@@ -60,8 +66,7 @@ bool onceSpringAutoStop = false;
 static uint32_t preT = 0;
 bool preTS = false;
 
-// LiquidCrystal_I2C lcd(0x27, 16, 2);
-// BigNumbers_I2C bigNum(&lcd);
+ACS712  ACS(-1, 12.75, 1023, 66);
 
 // linear.x = ล้อซ้ายหน้า
 // linear.y = ล้อขวาหน้า
@@ -202,7 +207,6 @@ void pick_fun(float msg)
   if (preReload != msg)
   {
     preReload = msg;
-    //    onceReload = true;
     if (preReload == 1)
     {
       onceReload = true;
@@ -214,17 +218,20 @@ void pick_fun(float msg)
   }
   if (lim_switch1() == false)
   {
+    isReloading = false;
     pick_state = "up";
     digitalWrite(pick_ina, HIGH);
     digitalWrite(pick_inb, HIGH);
     if (onceStop)
     {
       analogWrite(pick_pwm, 0);
+      oncePullback = true;
       onceStop = false;
     }
   }
   else if (lim_switch2() == false)
   {
+    isReloading = false;
     pick_state = "down";
     digitalWrite(pick_ina, HIGH);
     digitalWrite(pick_inb, HIGH);
@@ -236,6 +243,7 @@ void pick_fun(float msg)
   }
   if (msg == ros_reload)
   {
+    isReloading = true;
     if (pick_state == "up")
     {
       digitalWrite(pick_ina, HIGH);
@@ -257,16 +265,32 @@ void pick_fun(float msg)
       }
     }
   }
+  else if ((pick_state == "up") && (!isReloading) && (lim_switch1() == true))
+  {
+    digitalWrite(pick_ina, LOW);
+    digitalWrite(pick_inb, HIGH);
+    if (oncePullback)
+    {
+      analogWrite(pick_pwm, pwmReloadUp);
+      oncePullback = false;
+      onceStop = true;
+    }
+  }
 }
 
-void up_down_fun(float msg)
+void up_down_fun(float msg1, float msg2)
 {
-  if (preUp_Down != msg)
+  if (preUp_Down != msg1)
   {
-    preUp_Down = msg;
+    preUp_Down = msg1;
     onceUp_Down = true;
   }
-  if ((msg == ros_up) && (pick_state != "down")) // up
+  if (preDown_Auto != msg2)
+  {
+    preDown_Auto = msg2;
+    onceDown_Auto = true;
+  }
+  if ((msg1 == ros_up) && (pick_state != "down")) // up
   {
     digitalWrite(pick_up_down_ina, HIGH);
     digitalWrite(pick_up_down_inb, LOW);
@@ -276,14 +300,15 @@ void up_down_fun(float msg)
       onceUp_Down = false;
     }
   }
-  else if (msg == ros_down) // low
+  else if ((msg1 == ros_down) || (isReloading && (pick_state == "up"))) // low
   {
     digitalWrite(pick_up_down_ina, LOW);
     digitalWrite(pick_up_down_inb, HIGH);
-    if (onceUp_Down)
+    if (onceUp_Down || onceDown_Auto)
     {
       analogWrite(pick_up_down_pwm, pwmUpDown);
       onceUp_Down = false;
+      onceDown_Auto = false;
     }
   }
   else
@@ -382,6 +407,7 @@ void timer_callback(rcl_timer_t *timer, int64_t last_call_time)
   (void)last_call_time;
   if (timer != NULL)
   {
+    msg_pub.linear.x = ACS.mA_DC();
     rcl_publish(&publisher, &msg_pub, NULL);
     msg_pub.linear.y++;
   }
@@ -399,7 +425,7 @@ void subscription_command_callback(const void *msgin)
 
   shoot_fun(msg_sub2->linear.x);
   pick_fun(msg_sub2->angular.x);
-  up_down_fun(msg_sub2->angular.y);
+  up_down_fun(msg_sub2->angular.y, msg_sub2->angular.x);
   spring(msg_sub2->angular.z, msg_sub2->linear.x);
 }
 
@@ -562,6 +588,8 @@ void setup()
   msg_sub2.angular.x = 0.0;
   msg_sub2.angular.y = 0.0;
   msg_sub2.angular.z = 0.0;
+
+  ACS.autoMidPoint();
 }
 
 void loop()
@@ -582,7 +610,7 @@ void loop()
     EXECUTE_EVERY_N_MS(200, state = (RMW_RET_OK == rmw_uros_ping_agent(100, 1)) ? AGENT_CONNECTED : AGENT_DISCONNECTED;);
     if (state == AGENT_CONNECTED)
     {
-      // rclc_executor_spin_some(&executor_pub, RCL_MS_TO_NS(100));
+      rclc_executor_spin_some(&executor_pub, RCL_MS_TO_NS(100));
       rclc_executor_spin_some(&executor_sub1, RCL_MS_TO_NS(100));
       rclc_executor_spin_some(&executor_sub2, RCL_MS_TO_NS(100));
     }

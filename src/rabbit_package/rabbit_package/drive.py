@@ -101,9 +101,9 @@ class DriveRabbit(Node):
         msg.angular.y = 0.0
 
         try:
-            if self.preDriveMode != self.buttons["L"]:
-                self.preDriveMode = self.buttons["L"]
-                if self.buttons["L"] == 1:
+            if self.preDriveMode != self.buttons["LS"]:
+                self.preDriveMode = self.buttons["LS"]
+                if self.buttons["LS"] == 1:
                     self.stateDriveMode += 1
             if self.stateDriveMode > 1:
                 self.stateDriveMode = 0
@@ -119,9 +119,9 @@ class DriveRabbit(Node):
                 else:
                     y = -1 * self.axes["LX"]
                     x = -1 * self.axes["LY"]
-                    if self.stateDriveMode == 1:
-                        x = np.interp(x, [-1, 1], [-1 * self.speed, self.speed])
-                        y = np.interp(y, [-1, 1], [-1 * self.speed, self.speed])
+                    # if self.stateDriveMode == 1:
+                    #     x = np.interp(x, [-1, 1], [-1 * self.speed, self.speed])
+                    #     y = np.interp(y, [-1, 1], [-1 * self.speed, self.speed])
                     # if self.stateDriveMode == 1:
                     #     if y != 0.0:
                     #         y = (abs(y) / y) * 0.55
