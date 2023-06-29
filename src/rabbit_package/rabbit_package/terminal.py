@@ -36,7 +36,7 @@ class TeriminalRabbit(Node):
         self.pwm = 0.0
         self.pwm_gui = []
 
-        self.width_frame, self.height_frame = (600, 1024)
+        self.width_frame, self.height_frame = (576, 720)
         self.window_state = "fullscreen"
 
         self.br = CvBridge()
@@ -160,7 +160,7 @@ class TeriminalRabbit(Node):
             f"{self.pwm}", cv2.FONT_HERSHEY_SIMPLEX, 6, 20
         )
         text_x_pwm = 50 + int((self.width_frame - 50 - text_size_pwm[0]) / 2)
-        text_y_pwm = 400 + int((self.height_frame - 400 + text_size_pwm[1]) / 2)
+        text_y_pwm = 500 + int((self.height_frame - 500 + text_size_pwm[1]) / 2)
         cv2.rectangle(
             frame,
             (0, (self.height_frame - pwm_height)),
@@ -177,7 +177,7 @@ class TeriminalRabbit(Node):
             if self.team == "BLUE":
                 cv2.rectangle(
                     frame,
-                    (50, 400),
+                    (50, 500),
                     (self.width_frame, int(self.height_frame)),
                     (227, 150, 90),
                     -1,
@@ -185,7 +185,7 @@ class TeriminalRabbit(Node):
             else:
                 cv2.rectangle(
                     frame,
-                    (50, 400),
+                    (50, 500),
                     (self.width_frame, int(self.height_frame)),
                     (104, 115, 237),
                     -1,
@@ -193,14 +193,14 @@ class TeriminalRabbit(Node):
         else:
             cv2.rectangle(
                 frame,
-                (50, 400),
+                (50, 500),
                 (self.width_frame, int(self.height_frame)),
                 (255, 204, 243),
                 -1,
             )
         cv2.rectangle(
             frame,
-            (50, 400),
+            (50, 500),
             (self.width_frame, int(self.height_frame)),
             (0, 0, 0),
             2,

@@ -1,4 +1,3 @@
-#include <ACS712.h>
 #include <micro_ros_arduino.h>
 
 #include <stdio.h>
@@ -66,7 +65,8 @@ bool onceSpringAutoStop = false;
 static uint32_t preT = 0;
 bool preTS = false;
 
-ACS712  ACS(-1, 12.75, 1023, 66);
+int sensitive = 66;
+int offset = 3610;
 
 // linear.x = ล้อซ้ายหน้า
 // linear.y = ล้อขวาหน้า
@@ -94,6 +94,26 @@ int lim_switch2()
 int lim_switch3()
 {
   return digitalRead(limit_s3);
+}
+
+double getCA()
+{
+  int count = 200;
+  double sum = 0;
+  for (int i = 0; i < count; i++)
+  {
+    sum += getC();
+  }
+  double val = sum / count;
+  return val;
+}
+
+double getC()
+{
+  int a = analogRead(20);
+  double v = (a / 1024.0) * 5000;
+  double c = (v - offset) / sensitive;
+  return c;
 }
 
 void shoot_fun(float pwmm)
@@ -407,9 +427,9 @@ void timer_callback(rcl_timer_t *timer, int64_t last_call_time)
   (void)last_call_time;
   if (timer != NULL)
   {
-    msg_pub.linear.x = ACS.mA_DC();
+    msg_pub.linear.x = getCA();
     rcl_publish(&publisher, &msg_pub, NULL);
-    msg_pub.linear.y++;
+    // msg_pub.linear.y++;
   }
 }
 
@@ -588,8 +608,6 @@ void setup()
   msg_sub2.angular.x = 0.0;
   msg_sub2.angular.y = 0.0;
   msg_sub2.angular.z = 0.0;
-
-  ACS.autoMidPoint();
 }
 
 void loop()
