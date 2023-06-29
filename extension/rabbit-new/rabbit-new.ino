@@ -467,7 +467,7 @@ bool create_entities()
       &publisher,
       &node,
       ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Twist),
-      "twist_topic"));
+      "current_topic"));
 
   // create timer,
   const unsigned int timer_timeout = 100;

@@ -6,6 +6,7 @@ import numpy as np
 from rclpy.node import Node
 from std_msgs.msg import Bool
 from sensor_msgs.msg import Image
+from geometry_msgs.msg import Twist
 from rabbit_interfaces.msg import RabPwm
 from rclpy import qos
 from cv_bridge import CvBridge
@@ -22,6 +23,14 @@ class TeriminalRabbit(Node):
         )
         self.dat
 
+        self.ampere = self.create_subscription(
+            Twist,
+            "current_topic",
+            self.amp_callback,
+            qos_profile=qos.qos_profile_sensor_data,
+        )
+        self.ampere
+
         # self.cam = self.create_subscription(
         #     Image,
         #     "color_image_topic",
@@ -29,6 +38,8 @@ class TeriminalRabbit(Node):
         #     qos_profile=qos.qos_profile_sensor_data,
         # )
         # self.cam
+
+        self.current = 0.0
 
         self.team = ""
         self.shoot = False
@@ -57,6 +68,10 @@ class TeriminalRabbit(Node):
             # closing all open windows
             cv2.destroyAllWindows()
             exit()
+
+    def amp_callback(self, msg):
+        self.current = msg.linear.x
+        # self.get_logger().info(f"{self.current}")
 
     def gui(self):
         block = [
@@ -144,17 +159,17 @@ class TeriminalRabbit(Node):
         color_zone2 = (0, 165, 255)
         color_zone3 = (0, 0, 255)
 
-        if self.pwm <= 85:
+        if self.current <= 3.3:
             return color_zone1
-        elif self.pwm <= 60:
-            value = (self.pwm - 85) / (170 - 85)
+        elif self.current <= 6.6:
+            value = (self.current - 3.3) / (6.6 - 3.3)
             return self.interpolate_color(color_zone1, color_zone2, value)
         else:
-            value = (self.pwm - 170) / (255 - 170)
+            value = (self.current - 6.6) / (10 - 6.6)
             return self.interpolate_color(color_zone2, color_zone3, value)
 
     def draw_power_bar(self, frame):
-        pwm_height = int((self.pwm / 255) * self.height_frame)
+        pwm_height = int((self.current / 10) * self.height_frame)
         pwm_color = self.get_zone_color()
         text_size_pwm, _ = cv2.getTextSize(
             f"{self.pwm}", cv2.FONT_HERSHEY_SIMPLEX, 6, 20
