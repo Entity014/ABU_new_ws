@@ -310,7 +310,7 @@ void up_down_fun(float msg1, float msg2)
     preDown_Auto = msg2;
     onceDown_Auto = true;
   }
-  if ((msg1 == ros_up) && (pick_state != "down")) // up
+  if (msg1 == ros_up) // up
   {
     digitalWrite(pick_up_down_ina, HIGH);
     digitalWrite(pick_up_down_inb, LOW);
